@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NELFUND Questions</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #0f1b12;
+    color: #1a1a1a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+  .wrap {
+    width: 100%;
+    max-width: 480px;
+  }
+  .badge {
+    display: inline-block;
+    background: #1a7a3c;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-bottom: 18px;
+  }
+  header h1 {
+    color: #fff;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  header p {
+    color: #b7c4bb;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 28px 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+  }
+  textarea {
+    width: 100%;
+    min-height: 130px;
+    font-family: inherit;
+    font-size: 15px;
+    padding: 14px;
+    border: 1px solid #d5d9d6;
+    border-radius: 6px;
+    resize: vertical;
+    color: #1a1a1a;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: #1a7a3c;
+  }
+  .error {
+    display: none;
+    color: #b3261e;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  button {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 15px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .btn-primary {
+    background: #1a7a3c;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #156530; }
+  .btn-primary:disabled {
+    background: #9db8a4;
+    cursor: default;
+  }
+
+  #joinScreen {
+    display: none;
+    background: #fff;
+    border-radius: 10px;
+    padding: 40px 28px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+  #joinScreen .check {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #e6f4ea;
+    color: #1a7a3c;
+    font-size: 28px;
+    line-height: 56px;
+    margin: 0 auto 18px;
+  }
+  #joinScreen h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  #joinScreen p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 26px;
+  }
+  a.join-btn {
+    display: block;
+    text-decoration: none;
+    background: #1a7a3c;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 15px 24px;
+    border-radius: 6px;
+  }
+  a.join-btn:hover { background: #156530; }
+
+  .btn-secondary {
+    background: #eef1ef;
+    color: #1a1a1a;
+  }
+  .btn-secondary:hover { background: #e2e6e3; }
+
+  .dont-show {
+    display: none;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #555;
+    cursor: pointer;
+  }
+  .dont-show input {
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .joined-note {
+    display: none;
+    font-size: 13px;
+    color: #1a7a3c;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 12px;
+    color: #7c8a80;
+  }
+
+  .top-follow {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 50;
+  }
+  .hand {
+    font-size: 20px;
+    animation: pointMove 1s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes pointMove {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-7px); }
+  }
+  .follow-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: #1a7a3c;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    padding: 8px 10px;
+    border-radius: 4px;
+    max-width: 130px;
+  }
+  .follow-btn:hover { background: #156530; }
+
+  @media (max-width: 420px) {
+    .top-follow { top: 10px; right: 10px; }
+    .follow-btn { font-size: 10px; padding: 7px 8px; max-width: 105px; }
+    .hand { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-follow">
+  <span class="hand">&#128073;</span>
+  <a class="follow-btn" href="https://whatsapp.com/channel/0029VbCdz9H6rsQoEQkTTV2J" target="_blank" rel="noopener">NELFUND Updates &amp; Enquiry</a>
+</div>
+
+<div class="wrap">
+  <header>
+    <span class="badge">NELFUND</span>
+    <h1>Got a NELFUND question?</h1>
+    <p>Drop it below. Once submitted, join the WhatsApp group. Your answer will be posted there anonymously, so no one will know it was your question.</p>
+  </header>
+
+  <div class="card" id="formCard">
+    <form id="questionForm">
+      <label for="question">Your question</label>
+      <textarea id="question" name="question" placeholder="Type your NELFUND question here..." required></textarea>
+      <div class="error" id="errorMsg">Please type your question before submitting.</div>
+      <button type="submit" class="btn-primary" id="submitBtn">Submit question</button>
+    </form>
+  </div>
+
+  <div id="joinScreen">
+    <div class="check">&#10003;</div>
+    <h2>Question received</h2>
+    <p class="joined-note" id="joinedNote">You've already joined the group. Your answer will be posted there.</p>
+    <div id="joinSection">
+      <p>Join the WhatsApp group below. Your answer will be posted there once it's ready.</p>
+      <a class="join-btn" id="joinLink" href="https://chat.whatsapp.com/Li7Dut0yYasCFSir3e6ehN" target="_blank" rel="noopener">Join WhatsApp Group</a>
+      <label class="dont-show" id="dontShowWrap">
+        <input type="checkbox" id="dontShowCheckbox">
+        <span>I've already joined the group, don't show this again</span>
+      </label>
+    </div>
+    <button type="button" class="btn-secondary" id="newQuestionBtn">Drop another question</button>
+  </div>
+
+  <footer>Answers are posted in the group, not sent individually.</footer>
+</div>
+
+<script>
+  var FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSchzitvG20ddNavqrVjesr3RdSizqvHQGL7T-vixl9NxXGJcA/formResponse";
+  var ENTRY_ID = "entry.317974863";
+
+  var form = document.getElementById('questionForm');
+  var textarea = document.getElementById('question');
+  var errorMsg = document.getElementById('errorMsg');
+  var submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var value = textarea.value.trim();
+
+    if (!value) {
+      errorMsg.style.display = 'block';
+      return;
+    }
+    errorMsg.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    var body = new URLSearchParams();
+    body.append(ENTRY_ID, value);
+
+    fetch(FORM_ACTION, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    }).then(function () {
+      showJoinScreen();
+    }).catch(function () {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit question';
+      errorMsg.textContent = 'Something went wrong. Check your connection and try again.';
+      errorMsg.style.display = 'block';
+    });
+  });
+
+  function showJoinScreen() {
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('joinScreen').style.display = 'block';
+    updateJoinSection();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateJoinSection() {
+    var hideJoin = localStorage.getItem('nelfund_hide_join') === '1';
+    var hasClickedJoin = localStorage.getItem('nelfund_joined_clicked') === '1';
+    var joinSection = document.getElementById('joinSection');
+    var joinedNote = document.getElementById('joinedNote');
+    var dontShowWrap = document.getElementById('dontShowWrap');
+
+    if (hideJoin) {
+      joinSection.style.display = 'none';
+      joinedNote.style.display = 'block';
+    } else {
+      joinSection.style.display = 'block';
+      joinedNote.style.display = 'none';
+      dontShowWrap.style.display = hasClickedJoin ? 'flex' : 'none';
+    }
+  }
+
+  document.getElementById('joinLink').addEventListener('click', function () {
+    localStorage.setItem('nelfund_joined_clicked', '1');
+  });
+
+  document.getElementById('dontShowCheckbox').addEventListener('change', function (e) {
+    if (e.target.checked) {
+      localStorage.setItem('nelfund_hide_join', '1');
+      updateJoinSection();
+    } else {
+      localStorage.removeItem('nelfund_hide_join');
+      updateJoinSection();
+    }
+  });
+
+  document.getElementById('newQuestionBtn').addEventListener('click', function () {
+    textarea.value = '';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit question';
+    errorMsg.style.display = 'none';
+    document.getElementById('joinScreen').style.display = 'none';
+    document.getElementById('formCard').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+  </html>
